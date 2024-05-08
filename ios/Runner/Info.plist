@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Display name of the app -->
+    <key>CFBundleDisplayName</key>
+    <string>Doctors Incentive</string>
+    
+    <!-- Executable file name -->
+    <key>CFBundleExecutable</key>
+    <string>$(EXECUTABLE_NAME)</string>
+    <key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+    <!-- Unique identifier for the app -->
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+    
+    <!-- Version of the app, e.g., 1.0.0 -->
+    <key>CFBundleShortVersionString</key>
+    <string>$(MARKETING_VERSION)</string>
+    
+    <!-- Build number, typically incremented for each build -->
+    <key>CFBundleVersion</key>
+    <string>$(CURRENT_PROJECT_VERSION)</string>
+    <key>CFBundlePackageType</key>
+	<string>APPL</string>
+    <key>CFBundleSignature</key>
+	<string>????</string>
+    <!-- Background modes the app supports -->
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>remote-notification</string>
+    </array>
+    
+    <!-- Enable file sharing with iTunes -->
+    <key>UIFileSharingEnabled</key>
+    <true/>
+    
+    <!-- Launch screen file name -->
+    <key>UILaunchStoryboardName</key>
+    <string>LaunchScreen</string>
+    
+    <!-- Main storyboard file name -->
+    <key>UIMainStoryboardFile</key>
+    <string>Main</string>
+    
+    <!-- Supported interface orientations for iPhone -->
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+    </array>
+    
+    <!-- Supported interface orientations for iPad -->
+    <key>UISupportedInterfaceOrientations~ipad</key>
+    <array>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationPortraitUpsideDown</string>
+    </array>
+    
+    <!-- Indicates whether the app supports indirect input events -->
+    <key>UIApplicationSupportsIndirectInputEvents</key>
+    <true/>
+    
+    <!-- Camera usage description -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to the camera to take photos for Doctor incentive.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>We need access to the camera to take photos for Doctor incentive.</string>
+     <key>NSMicrophoneUsageDescription</key>
+    <string>We need access to the camera to take photos for Doctor incentive.</string>
+
+    <!-- Indicates whether the view controller controls the status bar appearance -->
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+    <false/>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+</dict>
+</plist>

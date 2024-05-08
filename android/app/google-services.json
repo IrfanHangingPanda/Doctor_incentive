@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "724839088733",
+    "project_id": "doctors-incentive",
+    "storage_bucket": "doctors-incentive.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:724839088733:android:80712fccd4743b9f5083b4",
+        "android_client_info": {
+          "package_name": "com.doctors_incentive"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF4eJdJ6E5BULuqlB7elHUw-FHUpf3okw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:724839088733:android:f81a2cc537dd76fd5083b4",
+        "android_client_info": {
+          "package_name": "com.example.doctors_incentive"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF4eJdJ6E5BULuqlB7elHUw-FHUpf3okw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
