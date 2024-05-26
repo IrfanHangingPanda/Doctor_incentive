@@ -48,7 +48,7 @@ class LoginController extends GetxController {
           "accept": "application/json",
         },
       );
-      print('islogin3');
+      print('islogin3------ ${response.body}');
       Map responseData = jsonDecode(response.body);
       print('islogin4');
       print("LOGIN ACREEN");
