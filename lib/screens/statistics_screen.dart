@@ -747,52 +747,45 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                                       ),
                                     ],
                                   ),
-                                  height: 350,
+                                  height: 360,
                                   width: Textsize.screenWidth,
                                   child: SfCircularChart(
-                                      legend: Legend(
+                                    legend: Legend(
+                                      isVisible: true,
+                                     
+                                      position: LegendPosition.bottom,
+                                      overflowMode: LegendItemOverflowMode.wrap,
+                                    ),
+                                    series: <CircularSeries>[
+                                      DoughnutSeries<ChartData, String>(
+                                        dataSource:
+                                            staticsDatacontroller.chartData,
+                                        dataLabelSettings: DataLabelSettings(
                                           isVisible: true,
-                                          position: LegendPosition.bottom,
-                                          overflowMode:
-                                              LegendItemOverflowMode.wrap),
-                                      series: <CircularSeries>[
-                                        // Render pie chart
-
-                                        DoughnutSeries<ChartData, String>(
-                                            dataSource:
-                                                staticsDatacontroller.chartData,
-                                            dataLabelSettings:
-                                                DataLabelSettings(
-                                              // Renders the data label
-                                              isVisible: true,
-                                              labelPosition:
-                                                  ChartDataLabelPosition
-                                                      .outside,
-                                            ),
-                                            // All the segments will be exploded
-
-                                            startAngle: 90,
-                                            endAngle: 450,
-                                            explode: true,
-                                            explodeIndex: _selectedIndex,
-                                            explodeAll: false,
-                                            radius: '80%',
-                                            enableTooltip: true,
-                                            onPointTap:
-                                                (ChartPointDetails args) {
-                                              setState(() {
-                                                _selectedIndex =
-                                                    args.pointIndex!;
-                                              });
-                                            },
-                                            pointColorMapper:
-                                                (ChartData data, _) =>
-                                                    data.color,
-                                            xValueMapper: (ChartData data, _) =>
-                                                data.x,
-                                            yValueMapper: (ChartData data, _) =>
-                                                data.y),
-                                      ])),
+                                          labelPosition:
+                                              ChartDataLabelPosition.inside,
+                                        ),
+                                        startAngle: 90,
+                                        endAngle: 450,
+                                        explode: true,
+                                        explodeIndex: _selectedIndex,
+                                        explodeAll: false,
+                                        radius: '95%',
+                                        enableTooltip: true,
+                                        onPointTap: (ChartPointDetails args) {
+                                          setState(() {
+                                            _selectedIndex = args.pointIndex!;
+                                          });
+                                        },
+                                        pointColorMapper: (ChartData data, _) =>
+                                            data.color,
+                                        xValueMapper: (ChartData data, _) =>
+                                            data.x,
+                                        yValueMapper: (ChartData data, _) =>
+                                            data.y,
+                                      ),
+                                    ],
+                                  )),
                               SizedBox(
                                 height: 30,
                               ),

@@ -24,7 +24,7 @@ class SendOtp extends GetxController {
     final token = prefs.getString('token');
 
     try {
-      print('otp details 1');
+      print('otp details 1------##');
       isDataLoading(true);
       var response = await http.get(
         Uri.parse('${BaseUrl.url}/api/notification/sendOtp'),
@@ -34,9 +34,9 @@ class SendOtp extends GetxController {
           "Authorization": 'Bearer $token'
         },
       );
-
+      print('${response.statusCode}+++++++++++++++++++++++++++${response.body}');
       Map responseData = jsonDecode(response.body);
-      print('otp details 2');
+      print('otp details 2----------###');
       print(responseData);
       print('otp details 3');
       message = responseData['message'];

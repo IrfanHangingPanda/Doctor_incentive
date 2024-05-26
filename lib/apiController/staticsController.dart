@@ -63,7 +63,11 @@ class StaticsController extends GetxController {
           "Authorization": 'Bearer $token'
         },
       );
-
+      print(
+          '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+      print(response.body);
+      print(
+          '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
       Map responseData = jsonDecode(response.body);
       print("responsedata");
       print(responseData);
@@ -310,6 +314,13 @@ class StaticsController extends GetxController {
           });
           for (var i = 0; i < dynamicPatientList.length; i++) {
             if (dynamicPatientList[i]['monthN'] == 1) {
+              newPatient.add(
+                ChartDatagraph(
+                    'Jan-${dynamicPatientList[i]['year']}',
+                    double.parse(
+                        staticNewPatient["${dynamicPatientList[i]['key']}"]
+                            .toString())),
+              );
             } else if (dynamicPatientList[i]['monthN'] == 2) {
               newPatient.add(
                 ChartDatagraph(
@@ -449,7 +460,9 @@ class StaticsController extends GetxController {
               "sameMonthLY": staticsData["mri"]["last_year"]
             },
           ];
-
+          print('++++++++++++++++++++++++++++++');
+          print(staticsData);
+          print('++++++++++++++++++++++++++++++');
           chartData = <ChartData>[
             ChartData('Discharge', staticsData["discharge"]["number"] + .0,
                 Color(0XFFF66D44)),
@@ -462,9 +475,9 @@ class StaticsController extends GetxController {
             ChartData(
                 'LAB', staticsData["lab"]["number"] + .0, Color(0XFF64C2A6)),
             ChartData(
-                'CT', staticsData["ct"]["number"] + .0, Color(0XFF2D87BB)),
+                'CT', staticsData["ct"]["number"] + .0, Color.fromARGB(255, 0, 200, 255)),
             ChartData(
-                'MRI', staticsData["mri"]["number"] + .0, Color(0XFF2D87A6)),
+                'MRI', staticsData["mri"]["number"] + .0, Color.fromARGB(255, 0, 119, 254)),
           ];
         }
       } else {
