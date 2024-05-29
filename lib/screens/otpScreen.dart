@@ -9,8 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
 class SendOtpScreen extends StatefulWidget {
-  final otpData;
-  const SendOtpScreen({super.key, this.otpData});
+  var otpData;
+  SendOtpScreen({super.key, this.otpData});
 
   @override
   State<SendOtpScreen> createState() => _SendOtpScreenState();
@@ -20,12 +20,16 @@ class _SendOtpScreenState extends State<SendOtpScreen> {
   var sendOtpcontroller = Get.put(SendOtp());
   OtpFieldController otpController = OtpFieldController();
   String otpValue = '';
+
   @override
   void initState() {
     super.initState();
-    print("otp after navigate otp screen ");
-    print(widget.otpData);
-    print("otp after navigate otp screen ");
+    widget.otpData = '****';
+    // Use a Future to ensure the widget is built before setting the value
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      otpController.set(widget.otpData.split(''));
+      print("otp after navigate otp screen: ${widget.otpData}");
+    });
   }
 
   @override
@@ -34,7 +38,7 @@ class _SendOtpScreenState extends State<SendOtpScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Colors.white, //change your color here
+          color: Colors.white, // Change your color here
         ),
         elevation: 0,
         centerTitle: true,
@@ -59,7 +63,7 @@ class _SendOtpScreenState extends State<SendOtpScreen> {
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                    'please enter 4 digit code sent to your phone number',
+                    'Please enter the 4-digit code sent to your phone number',
                     style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey.withOpacity(0.7),
@@ -69,30 +73,41 @@ class _SendOtpScreenState extends State<SendOtpScreen> {
                 height: MediaQuery.of(context).size.height * 0.07,
               ),
               Align(
-                child: OTPTextField(
-                  controller: otpController,
-                  length: 4,
-                  width: MediaQuery.of(context).size.width,
-                  textFieldAlignment: MainAxisAlignment.spaceAround,
-                  fieldWidth: 45,
-                  fieldStyle: FieldStyle.box,
-                  otpFieldStyle: OtpFieldStyle(
-                    focusBorderColor: Colors.grey.withOpacity(0.7),
-                    borderColor: Colors.grey.withOpacity(0.7),
+                  child: Stack(
+                children: [
+                  OTPTextField(
+                    controller: otpController,
+                    length: 4,
+                    width: MediaQuery.of(context).size.width,
+                    textFieldAlignment: MainAxisAlignment.spaceAround,
+                    fieldWidth: 45,
+                    fieldStyle: FieldStyle.box,
+                    otpFieldStyle: OtpFieldStyle(
+                      focusBorderColor: Colors.grey.withOpacity(0.7),
+                      borderColor: Colors.grey.withOpacity(0.7),
+                    ),
+                    outlineBorderRadius: 5,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                        color: Colors.black),
+                    onChanged: (pin) {
+                      // print("Changed: " + pin);
+                    },
+                    onCompleted: (pin) {
+                      otpValue = pin;
+                    },
                   ),
-                  outlineBorderRadius: 5,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18,
-                      color: Colors.black),
-                  onChanged: (pin) {
-                    // print("Changed: " + pin);
-                  },
-                  onCompleted: (pin) {
-                    otpValue = pin;
-                  },
-                ),
-              ),
+                  Positioned.fill(
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        color: Colors.transparent,
+                      ),
+                    ),
+                  ),
+                ],
+              )),
               Container(
                 height: MediaQuery.of(context).size.height * 0.04,
               ),
@@ -158,7 +173,7 @@ class _SendOtpScreenState extends State<SendOtpScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('If you didn`t receive code,',
+                    const Text('If you didn’t receive the code,',
                         style: TextStyle(
                             fontSize: 16,
                             color: Color(0XFFC4C4C4),
