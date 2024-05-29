@@ -34,7 +34,8 @@ class SendOtp extends GetxController {
           "Authorization": 'Bearer $token'
         },
       );
-      print('${response.statusCode}+++++++++++++++++++++++++++${response.body}');
+      print(
+          '${response.statusCode}+++++++++++++++++++++++++++${response.body}');
       Map responseData = jsonDecode(response.body);
       print('otp details 2----------###');
       print(responseData);
@@ -71,7 +72,7 @@ class SendOtp extends GetxController {
               backgroundColor: Colors.red,
               colorText: Colors.white);
         } else {
-          Get.offAll(SendOtpScreen(otpData: otpData));
+          Get.offAll(SendOtpScreen(otpData: otpData.toString()));
           print('otp details 7');
           ToastContext().init(context);
           Toast.show(
