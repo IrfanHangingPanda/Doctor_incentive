@@ -50,6 +50,9 @@ class StaticsController extends GetxController {
   Future<void> dataSendToServer(params) async {
     Uri url = Uri.parse("${BaseUrl.url}/api/statistics");
     var newUri = url.replace(queryParameters: params);
+    print('+------------------+');
+    print(newUri);
+    print('+------------------+');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
 
@@ -76,339 +79,347 @@ class StaticsController extends GetxController {
       print("StaticsData1");
       if (response.statusCode == 200) {
         staticsData = responseData['data'];
-        print(staticsData);
-        print("StaticsData2");
-        print('===================');
-        var staticPatientCount = staticsData['patient_count'];
-        print("patientcount Details");
-        print(staticPatientCount);
+
         print("patientcount Details");
         if (monthName == '') {
-          List dynamicList = [];
+          var staticPatientCount = staticsData['patient_count'];
+          if (staticPatientCount.length != 0) {
+            List dynamicList = [];
 
-          staticPatientCount.forEach((key, value) {
-            print('valueData');
-            print(value);
-            print('valueData');
-            DateTime month = DateTime.parse(key);
-            dynamicList
-                .add({'monthN': month.month, 'key': key, 'year': month.year});
-          });
+            staticPatientCount.forEach((key, value) {
+              print('valueData');
+              print(value);
+              print('valueData');
+              DateTime month = DateTime.parse(key);
+              dynamicList
+                  .add({'monthN': month.month, 'key': key, 'year': month.year});
+            });
 
-          for (var i = 0; i < dynamicList.length; i++) {
-            if (dynamicList[i]['monthN'] == 1) {
-              graph.add(
-                ChartDatagraph(
-                    'Jan-${dynamicList[i]['year']}',
-                    double.parse(staticPatientCount["${dynamicList[i]['key']}"]
-                        .toString())),
-              );
-            } else if (dynamicList[i]['monthN'] == 2) {
-              graph.add(
-                ChartDatagraph(
-                    'Feb-${dynamicList[i]['year']}',
-                    double.parse(staticPatientCount["${dynamicList[i]['key']}"]
-                        .toString())),
-              );
-            } else if (dynamicList[i]['monthN'] == 3) {
-              graph.add(
-                ChartDatagraph(
-                    'Mar-${dynamicList[i]['year']}',
-                    double.parse(staticPatientCount["${dynamicList[i]['key']}"]
-                        .toString())),
-              );
-            } else if (dynamicList[i]['monthN'] == 4) {
-              graph.add(
-                ChartDatagraph(
-                    'Apr-${dynamicList[i]['year']}',
-                    double.parse(staticPatientCount["${dynamicList[i]['key']}"]
-                        .toString())),
-              );
-            } else if (dynamicList[i]['monthN'] == 5) {
-              graph.add(
-                ChartDatagraph(
-                    'May-${dynamicList[i]['year']}',
-                    double.parse(staticPatientCount["${dynamicList[i]['key']}"]
-                        .toString())),
-              );
-            } else if (dynamicList[i]['monthN'] == 6) {
-              graph.add(
-                ChartDatagraph(
-                    'Jun-${dynamicList[i]['year']}',
-                    double.parse(staticPatientCount["${dynamicList[i]['key']}"]
-                        .toString())),
-              );
-            } else if (dynamicList[i]['monthN'] == 7) {
-              graph.add(
-                ChartDatagraph(
-                    'Jul-${dynamicList[i]['year']}',
-                    double.parse(staticPatientCount["${dynamicList[i]['key']}"]
-                        .toString())),
-              );
-            } else if (dynamicList[i]['monthN'] == 8) {
-              graph.add(
-                ChartDatagraph(
-                    'Aug-${dynamicList[i]['year']}',
-                    double.parse(staticPatientCount["${dynamicList[i]['key']}"]
-                        .toString())),
-              );
-            } else if (dynamicList[i]['monthN'] == 9) {
-              graph.add(
-                ChartDatagraph(
-                    'Sep-${dynamicList[i]['year']}',
-                    double.parse(staticPatientCount["${dynamicList[i]['key']}"]
-                        .toString())),
-              );
-            } else if (dynamicList[i]['monthN'] == 10) {
-              graph.add(
-                ChartDatagraph(
-                    'Oct-${dynamicList[i]['year']}',
-                    double.parse(staticPatientCount["${dynamicList[i]['key']}"]
-                        .toString())),
-              );
-            } else if (dynamicList[i]['monthN'] == 11) {
-              graph.add(
-                ChartDatagraph(
-                    'Nov-${dynamicList[i]['year']}',
-                    double.parse(staticPatientCount["${dynamicList[i]['key']}"]
-                        .toString())),
-              );
-            } else if (dynamicList[i]['monthN'] == 12) {
-              graph.add(
-                ChartDatagraph(
-                    'Dec-${dynamicList[i]['year']}',
-                    double.parse(staticPatientCount["${dynamicList[i]['key']}"]
-                        .toString())),
-              );
+            for (var i = 0; i < dynamicList.length; i++) {
+              if (dynamicList[i]['monthN'] == 1) {
+                graph.add(
+                  ChartDatagraph(
+                      'Jan-${dynamicList[i]['year']}',
+                      double.parse(
+                          staticPatientCount["${dynamicList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicList[i]['monthN'] == 2) {
+                graph.add(
+                  ChartDatagraph(
+                      'Feb-${dynamicList[i]['year']}',
+                      double.parse(
+                          staticPatientCount["${dynamicList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicList[i]['monthN'] == 3) {
+                graph.add(
+                  ChartDatagraph(
+                      'Mar-${dynamicList[i]['year']}',
+                      double.parse(
+                          staticPatientCount["${dynamicList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicList[i]['monthN'] == 4) {
+                graph.add(
+                  ChartDatagraph(
+                      'Apr-${dynamicList[i]['year']}',
+                      double.parse(
+                          staticPatientCount["${dynamicList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicList[i]['monthN'] == 5) {
+                graph.add(
+                  ChartDatagraph(
+                      'May-${dynamicList[i]['year']}',
+                      double.parse(
+                          staticPatientCount["${dynamicList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicList[i]['monthN'] == 6) {
+                graph.add(
+                  ChartDatagraph(
+                      'Jun-${dynamicList[i]['year']}',
+                      double.parse(
+                          staticPatientCount["${dynamicList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicList[i]['monthN'] == 7) {
+                graph.add(
+                  ChartDatagraph(
+                      'Jul-${dynamicList[i]['year']}',
+                      double.parse(
+                          staticPatientCount["${dynamicList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicList[i]['monthN'] == 8) {
+                graph.add(
+                  ChartDatagraph(
+                      'Aug-${dynamicList[i]['year']}',
+                      double.parse(
+                          staticPatientCount["${dynamicList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicList[i]['monthN'] == 9) {
+                graph.add(
+                  ChartDatagraph(
+                      'Sep-${dynamicList[i]['year']}',
+                      double.parse(
+                          staticPatientCount["${dynamicList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicList[i]['monthN'] == 10) {
+                graph.add(
+                  ChartDatagraph(
+                      'Oct-${dynamicList[i]['year']}',
+                      double.parse(
+                          staticPatientCount["${dynamicList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicList[i]['monthN'] == 11) {
+                graph.add(
+                  ChartDatagraph(
+                      'Nov-${dynamicList[i]['year']}',
+                      double.parse(
+                          staticPatientCount["${dynamicList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicList[i]['monthN'] == 12) {
+                graph.add(
+                  ChartDatagraph(
+                      'Dec-${dynamicList[i]['year']}',
+                      double.parse(
+                          staticPatientCount["${dynamicList[i]['key']}"]
+                              .toString())),
+                );
+              }
+              print("completed");
             }
-            print("completed");
           }
 
           //Revenue
           var staticRevenue = staticsData['revenues'];
-          print("revenue count details");
-          print(staticRevenue);
-          print("revenue count details");
+          if (staticRevenue.length != 0) {
+            print("revenue count details");
+            print(staticRevenue);
+            print("revenue count details");
 
-          List dynamicRevenueList = [];
-          staticRevenue.forEach((key, value) {
-            print('revenuevalue');
-            print(value);
-            print('revenuevalue');
-            DateTime month = DateTime.parse(key);
-            dynamicRevenueList
-                .add({'monthN': month.month, 'key': key, 'year': month.year});
-          });
-          for (var i = 0; i < dynamicRevenueList.length; i++) {
-            if (dynamicRevenueList[i]['monthN'] == 1) {
-              graphRevenue.add(
-                ChartDatagraph(
-                    'Jan-${dynamicRevenueList[i]['year']}',
-                    double.parse(
-                        staticRevenue["${dynamicRevenueList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicRevenueList[i]['monthN'] == 2) {
-              graphRevenue.add(
-                ChartDatagraph(
-                    'Feb-${dynamicRevenueList[i]['year']}',
-                    double.parse(
-                        staticRevenue["${dynamicRevenueList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicRevenueList[i]['monthN'] == 3) {
-              graphRevenue.add(
-                ChartDatagraph(
-                    'Mar-${dynamicRevenueList[i]['year']}',
-                    double.parse(
-                        staticRevenue["${dynamicRevenueList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicRevenueList[i]['monthN'] == 4) {
-              graphRevenue.add(
-                ChartDatagraph(
-                    'Apr-${dynamicRevenueList[i]['year']}',
-                    double.parse(
-                        staticRevenue["${dynamicRevenueList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicRevenueList[i]['monthN'] == 5) {
-              graphRevenue.add(
-                ChartDatagraph(
-                    'May-${dynamicRevenueList[i]['year']}',
-                    double.parse(
-                        staticRevenue["${dynamicRevenueList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicRevenueList[i]['monthN'] == 6) {
-              graphRevenue.add(
-                ChartDatagraph(
-                    'Jun-${dynamicRevenueList[i]['year']}',
-                    double.parse(
-                        staticRevenue["${dynamicRevenueList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicRevenueList[i]['monthN'] == 7) {
-              graphRevenue.add(
-                ChartDatagraph(
-                    'Jul-${dynamicRevenueList[i]['year']}',
-                    double.parse(
-                        staticRevenue["${dynamicRevenueList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicRevenueList[i]['monthN'] == 8) {
-              graphRevenue.add(
-                ChartDatagraph(
-                    'Aug-${dynamicRevenueList[i]['year']}',
-                    double.parse(
-                        staticRevenue["${dynamicRevenueList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicRevenueList[i]['monthN'] == 9) {
-              graphRevenue.add(
-                ChartDatagraph(
-                    'Sep-${dynamicRevenueList[i]['year']}',
-                    double.parse(
-                        staticRevenue["${dynamicRevenueList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicRevenueList[i]['monthN'] == 10) {
-              graphRevenue.add(
-                ChartDatagraph(
-                    'Oct-${dynamicRevenueList[i]['year']}',
-                    double.parse(
-                        staticRevenue["${dynamicRevenueList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicRevenueList[i]['monthN'] == 11) {
-              graphRevenue.add(
-                ChartDatagraph(
-                    'Nov-${dynamicRevenueList[i]['year']}',
-                    double.parse(
-                        staticRevenue["${dynamicRevenueList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicRevenueList[i]['monthN'] == 12) {
-              graphRevenue.add(
-                ChartDatagraph(
-                    'Dec-${dynamicRevenueList[i]['year']}',
-                    double.parse(
-                        staticRevenue["${dynamicRevenueList[i]['key']}"]
-                            .toString())),
-              );
+            List dynamicRevenueList = [];
+            staticRevenue.forEach((key, value) {
+              print('revenuevalue');
+              print(value);
+              print('revenuevalue');
+              DateTime month = DateTime.parse(key);
+              dynamicRevenueList
+                  .add({'monthN': month.month, 'key': key, 'year': month.year});
+            });
+            for (var i = 0; i < dynamicRevenueList.length; i++) {
+              if (dynamicRevenueList[i]['monthN'] == 1) {
+                graphRevenue.add(
+                  ChartDatagraph(
+                      'Jan-${dynamicRevenueList[i]['year']}',
+                      double.parse(
+                          staticRevenue["${dynamicRevenueList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicRevenueList[i]['monthN'] == 2) {
+                graphRevenue.add(
+                  ChartDatagraph(
+                      'Feb-${dynamicRevenueList[i]['year']}',
+                      double.parse(
+                          staticRevenue["${dynamicRevenueList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicRevenueList[i]['monthN'] == 3) {
+                graphRevenue.add(
+                  ChartDatagraph(
+                      'Mar-${dynamicRevenueList[i]['year']}',
+                      double.parse(
+                          staticRevenue["${dynamicRevenueList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicRevenueList[i]['monthN'] == 4) {
+                graphRevenue.add(
+                  ChartDatagraph(
+                      'Apr-${dynamicRevenueList[i]['year']}',
+                      double.parse(
+                          staticRevenue["${dynamicRevenueList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicRevenueList[i]['monthN'] == 5) {
+                graphRevenue.add(
+                  ChartDatagraph(
+                      'May-${dynamicRevenueList[i]['year']}',
+                      double.parse(
+                          staticRevenue["${dynamicRevenueList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicRevenueList[i]['monthN'] == 6) {
+                graphRevenue.add(
+                  ChartDatagraph(
+                      'Jun-${dynamicRevenueList[i]['year']}',
+                      double.parse(
+                          staticRevenue["${dynamicRevenueList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicRevenueList[i]['monthN'] == 7) {
+                graphRevenue.add(
+                  ChartDatagraph(
+                      'Jul-${dynamicRevenueList[i]['year']}',
+                      double.parse(
+                          staticRevenue["${dynamicRevenueList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicRevenueList[i]['monthN'] == 8) {
+                graphRevenue.add(
+                  ChartDatagraph(
+                      'Aug-${dynamicRevenueList[i]['year']}',
+                      double.parse(
+                          staticRevenue["${dynamicRevenueList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicRevenueList[i]['monthN'] == 9) {
+                graphRevenue.add(
+                  ChartDatagraph(
+                      'Sep-${dynamicRevenueList[i]['year']}',
+                      double.parse(
+                          staticRevenue["${dynamicRevenueList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicRevenueList[i]['monthN'] == 10) {
+                graphRevenue.add(
+                  ChartDatagraph(
+                      'Oct-${dynamicRevenueList[i]['year']}',
+                      double.parse(
+                          staticRevenue["${dynamicRevenueList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicRevenueList[i]['monthN'] == 11) {
+                graphRevenue.add(
+                  ChartDatagraph(
+                      'Nov-${dynamicRevenueList[i]['year']}',
+                      double.parse(
+                          staticRevenue["${dynamicRevenueList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicRevenueList[i]['monthN'] == 12) {
+                graphRevenue.add(
+                  ChartDatagraph(
+                      'Dec-${dynamicRevenueList[i]['year']}',
+                      double.parse(
+                          staticRevenue["${dynamicRevenueList[i]['key']}"]
+                              .toString())),
+                );
+              }
             }
           }
           //newpatient
           var staticNewPatient = staticsData['new_patient'];
-          print("new patient count details");
-          print(staticNewPatient);
-          print("new patient count details");
-          List dynamicPatientList = [];
-          staticNewPatient.forEach((key, value) {
-            print('newpatient value');
-            print(value);
-            print('newpatient value');
-            DateTime month = DateTime.parse(key);
-            dynamicPatientList
-                .add({'monthN': month.month, 'key': key, 'year': month.year});
-          });
-          for (var i = 0; i < dynamicPatientList.length; i++) {
-            if (dynamicPatientList[i]['monthN'] == 1) {
-              newPatient.add(
-                ChartDatagraph(
-                    'Jan-${dynamicPatientList[i]['year']}',
-                    double.parse(
-                        staticNewPatient["${dynamicPatientList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicPatientList[i]['monthN'] == 2) {
-              newPatient.add(
-                ChartDatagraph(
-                    'Feb-${dynamicPatientList[i]['year']}',
-                    double.parse(
-                        staticNewPatient["${dynamicPatientList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicPatientList[i]['monthN'] == 3) {
-              newPatient.add(
-                ChartDatagraph(
-                    'Mar-${dynamicPatientList[i]['year']}',
-                    double.parse(
-                        staticNewPatient["${dynamicPatientList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicPatientList[i]['monthN'] == 4) {
-              newPatient.add(
-                ChartDatagraph(
-                    'Apr-${dynamicPatientList[i]['year']}',
-                    double.parse(
-                        staticNewPatient["${dynamicPatientList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicPatientList[i]['monthN'] == 5) {
-              newPatient.add(
-                ChartDatagraph(
-                    'May-${dynamicPatientList[i]['year']}',
-                    double.parse(
-                        staticNewPatient["${dynamicPatientList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicPatientList[i]['monthN'] == 6) {
-              newPatient.add(
-                ChartDatagraph(
-                    'Jun-${dynamicPatientList[i]['year']}',
-                    double.parse(
-                        staticNewPatient["${dynamicPatientList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicPatientList[i]['monthN'] == 7) {
-              newPatient.add(
-                ChartDatagraph(
-                    'Jul-${dynamicPatientList[i]['year']}',
-                    double.parse(
-                        staticNewPatient["${dynamicPatientList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicPatientList[i]['monthN'] == 8) {
-              newPatient.add(
-                ChartDatagraph(
-                    'Aug-${dynamicPatientList[i]['year']}',
-                    double.parse(
-                        staticNewPatient["${dynamicPatientList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicPatientList[i]['monthN'] == 9) {
-              newPatient.add(
-                ChartDatagraph(
-                    'Sep-${dynamicPatientList[i]['year']}',
-                    double.parse(
-                        staticNewPatient["${dynamicPatientList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicPatientList[i]['monthN'] == 10) {
-              newPatient.add(
-                ChartDatagraph(
-                    'Oct-${dynamicPatientList[i]['year']}',
-                    double.parse(
-                        staticNewPatient["${dynamicPatientList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicPatientList[i]['monthN'] == 11) {
-              newPatient.add(
-                ChartDatagraph(
-                    'Nov-${dynamicPatientList[i]['year']}',
-                    double.parse(
-                        staticNewPatient["${dynamicPatientList[i]['key']}"]
-                            .toString())),
-              );
-            } else if (dynamicPatientList[i]['monthN'] == 12) {
-              newPatient.add(
-                ChartDatagraph(
-                    'Dec-${dynamicPatientList[i]['year']}',
-                    double.parse(
-                        staticNewPatient["${dynamicPatientList[i]['key']}"]
-                            .toString())),
-              );
+          if (staticNewPatient.length != 0) {
+            List dynamicPatientList = [];
+            staticNewPatient.forEach((key, value) {
+              DateTime month = DateTime.parse(key);
+              dynamicPatientList
+                  .add({'monthN': month.month, 'key': key, 'year': month.year});
+            });
+            for (var i = 0; i < dynamicPatientList.length; i++) {
+              if (dynamicPatientList[i]['monthN'] == 1) {
+                newPatient.add(
+                  ChartDatagraph(
+                      'Jan-${dynamicPatientList[i]['year']}',
+                      double.parse(
+                          staticNewPatient["${dynamicPatientList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicPatientList[i]['monthN'] == 2) {
+                newPatient.add(
+                  ChartDatagraph(
+                      'Feb-${dynamicPatientList[i]['year']}',
+                      double.parse(
+                          staticNewPatient["${dynamicPatientList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicPatientList[i]['monthN'] == 3) {
+                newPatient.add(
+                  ChartDatagraph(
+                      'Mar-${dynamicPatientList[i]['year']}',
+                      double.parse(
+                          staticNewPatient["${dynamicPatientList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicPatientList[i]['monthN'] == 4) {
+                newPatient.add(
+                  ChartDatagraph(
+                      'Apr-${dynamicPatientList[i]['year']}',
+                      double.parse(
+                          staticNewPatient["${dynamicPatientList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicPatientList[i]['monthN'] == 5) {
+                newPatient.add(
+                  ChartDatagraph(
+                      'May-${dynamicPatientList[i]['year']}',
+                      double.parse(
+                          staticNewPatient["${dynamicPatientList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicPatientList[i]['monthN'] == 6) {
+                newPatient.add(
+                  ChartDatagraph(
+                      'Jun-${dynamicPatientList[i]['year']}',
+                      double.parse(
+                          staticNewPatient["${dynamicPatientList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicPatientList[i]['monthN'] == 7) {
+                newPatient.add(
+                  ChartDatagraph(
+                      'Jul-${dynamicPatientList[i]['year']}',
+                      double.parse(
+                          staticNewPatient["${dynamicPatientList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicPatientList[i]['monthN'] == 8) {
+                newPatient.add(
+                  ChartDatagraph(
+                      'Aug-${dynamicPatientList[i]['year']}',
+                      double.parse(
+                          staticNewPatient["${dynamicPatientList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicPatientList[i]['monthN'] == 9) {
+                newPatient.add(
+                  ChartDatagraph(
+                      'Sep-${dynamicPatientList[i]['year']}',
+                      double.parse(
+                          staticNewPatient["${dynamicPatientList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicPatientList[i]['monthN'] == 10) {
+                newPatient.add(
+                  ChartDatagraph(
+                      'Oct-${dynamicPatientList[i]['year']}',
+                      double.parse(
+                          staticNewPatient["${dynamicPatientList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicPatientList[i]['monthN'] == 11) {
+                newPatient.add(
+                  ChartDatagraph(
+                      'Nov-${dynamicPatientList[i]['year']}',
+                      double.parse(
+                          staticNewPatient["${dynamicPatientList[i]['key']}"]
+                              .toString())),
+                );
+              } else if (dynamicPatientList[i]['monthN'] == 12) {
+                newPatient.add(
+                  ChartDatagraph(
+                      'Dec-${dynamicPatientList[i]['year']}',
+                      double.parse(
+                          staticNewPatient["${dynamicPatientList[i]['key']}"]
+                              .toString())),
+                );
+              }
             }
           }
 
@@ -474,10 +485,10 @@ class StaticsController extends GetxController {
                 staticsData["m_procedures"]["number"] + .0, Color(0XFFAADEA7)),
             ChartData(
                 'LAB', staticsData["lab"]["number"] + .0, Color(0XFF64C2A6)),
-            ChartData(
-                'CT', staticsData["ct"]["number"] + .0, Color.fromARGB(255, 0, 200, 255)),
-            ChartData(
-                'MRI', staticsData["mri"]["number"] + .0, Color.fromARGB(255, 0, 119, 254)),
+            ChartData('CT', staticsData["ct"]["number"] + .0,
+                Color.fromARGB(255, 0, 200, 255)),
+            ChartData('MRI', staticsData["mri"]["number"] + .0,
+                Color.fromARGB(255, 0, 119, 254)),
           ];
         }
       } else {
