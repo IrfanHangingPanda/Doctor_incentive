@@ -734,58 +734,70 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                                 height: 30,
                               ),
                               Container(
-                                  margin: EdgeInsets.all(5),
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      new BoxShadow(
-                                        color:
-                                            Color.fromARGB(255, 211, 210, 210),
-                                        blurRadius: 20.0,
-                                      ),
-                                    ],
-                                  ),
-                                  height: 360,
-                                  width: Textsize.screenWidth,
-                                  child: SfCircularChart(
-                                    legend: Legend(
-                                      isVisible: true,
-                                     
-                                      position: LegendPosition.bottom,
-                                      overflowMode: LegendItemOverflowMode.wrap,
+                                margin: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color.fromARGB(255, 211, 210, 210),
+                                      blurRadius: 20.0,
                                     ),
-                                    series: <CircularSeries>[
-                                      DoughnutSeries<ChartData, String>(
-                                        dataSource:
-                                            staticsDatacontroller.chartData,
-                                        dataLabelSettings: DataLabelSettings(
-                                          isVisible: true,
-                                          labelPosition:
-                                              ChartDataLabelPosition.inside,
-                                        ),
-                                        startAngle: 90,
-                                        endAngle: 450,
-                                        explode: true,
-                                        explodeIndex: _selectedIndex,
-                                        explodeAll: false,
-                                        radius: '95%',
-                                        enableTooltip: true,
-                                        onPointTap: (ChartPointDetails args) {
-                                          setState(() {
-                                            _selectedIndex = args.pointIndex!;
-                                          });
-                                        },
-                                        pointColorMapper: (ChartData data, _) =>
-                                            data.color,
-                                        xValueMapper: (ChartData data, _) =>
-                                            data.x,
-                                        yValueMapper: (ChartData data, _) =>
-                                            data.y,
+                                  ],
+                                ),
+                                height: MediaQuery.of(context).size.height *
+                                    0.45, // Increased height to allow more space for the legend
+                                width: Textsize.screenWidth,
+                                child: SfCircularChart(
+                                  legend: Legend(
+                                    isVisible: true,
+                                    position: LegendPosition.bottom,
+                                    overflowMode: LegendItemOverflowMode.wrap,
+                                    textStyle: TextStyle(
+                                      fontSize:
+                                          12, // Adjust the font size as necessary
+                                    ),
+                                    alignment: ChartAlignment.center,
+                                    iconHeight:
+                                        12, // Adjust icon size if needed
+                                    iconWidth: 12, // Adjust icon size if needed
+                                    // itemPadding: 8, // Adjust padding between legend items
+                                  ),
+                                  series: <CircularSeries>[
+                                    DoughnutSeries<ChartData, String>(
+                                      dataSource:
+                                          staticsDatacontroller.chartData,
+                                      dataLabelSettings: DataLabelSettings(
+                                        isVisible: true,
+                                        labelPosition:
+                                            ChartDataLabelPosition.inside,
+                                       // margin: EdgeInsets.all(0),
                                       ),
-                                    ],
-                                  )),
+                                      dataLabelMapper: (ChartData data, _) =>
+                                          data.y.toStringAsFixed(
+                                              0), // Show labels without decimal points
+                                      // startAngle: 90,
+                                      // endAngle: 450,
+                                      explode: true,
+                                      explodeIndex: _selectedIndex,
+                                      explodeAll: false,
+                                      radius: '80%',
+                                      enableTooltip: true,
+                                      onPointTap: (ChartPointDetails args) {
+                                        setState(() {
+                                          _selectedIndex = args.pointIndex!;
+                                        });
+                                      },
+                                      pointColorMapper: (ChartData data, _) =>
+                                          data.color,
+                                      xValueMapper: (ChartData data, _) =>
+                                          data.x,
+                                      yValueMapper: (ChartData data, _) =>
+                                          data.y,
+                                    ),
+                                  ],
+                                ),
+                              ),
                               SizedBox(
                                 height: 30,
                               ),

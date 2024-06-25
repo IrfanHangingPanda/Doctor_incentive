@@ -207,7 +207,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 fontSize: Textsize.titleSize,
                                 fontWeight: FontWeight.w500),
                           ),
-                          subtitle: Text('You will recive dailly updates',
+                          subtitle: Text('You will receive daily updates',
                               style: TextStyle(
                                   fontSize: Textsize.subTitle,
                                   color: const Color(0XFFC4C4C4))),
