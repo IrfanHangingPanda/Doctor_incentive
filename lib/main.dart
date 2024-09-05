@@ -25,7 +25,9 @@ Future<void> main() async {
     provisional: false,
     sound: true,
   );
-
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('isAuthorized', false);
+  print('----------------1Call1-----------------');
   FirebaseMessaging.instance.getToken().then((value) async {
     //  print(value);
     SharedPreferences prefs = await SharedPreferences.getInstance();

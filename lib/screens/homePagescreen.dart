@@ -4,21 +4,23 @@ import 'package:doctors_incentive/apiController/adminDetailsController.dart';
 import 'package:doctors_incentive/apiController/userDetailController.dart';
 import 'package:doctors_incentive/components/homeScreen_effects.dart';
 import 'package:doctors_incentive/model/textsize.dart';
-
 import 'package:doctors_incentive/screens/incentive_screen.dart';
 import 'package:doctors_incentive/screens/notificationScreen.dart';
 import 'package:doctors_incentive/screens/settings_screen.dart';
 import 'package:doctors_incentive/screens/statistics_screen.dart';
-
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:io' as io;
 
 class HomePageScreen extends StatefulWidget {
-  const HomePageScreen({super.key});
+  const HomePageScreen({
+    super.key,
+  });
 
   @override
   State<HomePageScreen> createState() => _HomePageScreenState();
@@ -27,8 +29,137 @@ class HomePageScreen extends StatefulWidget {
 class _HomePageScreenState extends State<HomePageScreen> {
   var userdetailscontroller = Get.put(UserDetailsController());
   var admindetailsController = Get.put(AdminDetailsController());
-
+  final LocalAuthentication auth = LocalAuthentication();
+  bool _isAuthenticating = false;
   var contactNumber;
+
+  Future<void> _authenticateWithBiometrics() async {
+    bool isSupported = await auth.isDeviceSupported();
+    if (!isSupported) {
+      // Handle device not supported
+      return;
+    }
+
+    bool authenticated = false;
+
+    try {
+      setState(() {
+        _isAuthenticating = true;
+      });
+
+      while (!authenticated) {
+        authenticated = await auth.authenticate(
+          localizedReason: 'Authenticate using biometrics or device password',
+          options: const AuthenticationOptions(
+            stickyAuth: false,
+            useErrorDialogs: false,
+            biometricOnly: false,
+          ),
+        );
+
+        if (authenticated) {
+          break; // Exit loop if authenticated
+        }
+
+        // Handle retry logic using existing dialog
+        bool retry = await showDialog<bool>(
+              context: context,
+              barrierDismissible:
+                  false, // Prevent dialog from closing when tapping outside
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('App is Locked'),
+                  content: const Text(
+                      'Authentication is required to access the App.'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text(
+                        'Unlock Now',
+                        style: TextStyle(color: Color(0XFF65A4C5)),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pop(true); // User chooses to retry
+                      },
+                    ),
+                  ],
+                );
+              },
+            ) ??
+            false;
+
+        if (!retry) {
+          SystemNavigator.pop();
+          io.exit(0); // Close the app if the user chooses not to retry
+          return;
+        }
+      }
+
+      setState(() {
+        _isAuthenticating = false;
+      });
+
+      final String message = authenticated ? 'Authorized' : 'Not Authorized';
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
+
+      if (authenticated == true) {
+        print('----------------0Call0-----------------');
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isAuthorized', true);
+        // Perform post-authentication actions here
+      } else {
+        SystemNavigator.pop();
+        io.exit(0); // Close the app if authentication failed
+      }
+    } on PlatformException catch (e) {
+      if (e.code == 'NotAvailable' && e.message == 'Authentication canceled.') {
+        // Trigger the existing dialog on Face ID cancellation
+        bool retry = await showDialog<bool>(
+              context: context,
+              barrierDismissible:
+                  false, // Prevent dialog from closing when tapping outside
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('App is Locked'),
+                  content: const Text(
+                      'Authentication is required to access the App.'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text(
+                        'Unlock Now',
+                        style: TextStyle(color: Color(0XFF65A4C5)),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pop(true); // User chooses to retry
+                      },
+                    ),
+                  ],
+                );
+              },
+            ) ??
+            false;
+
+        if (retry) {
+          _authenticateWithBiometrics(); // Retry authentication
+        } else {
+          SystemNavigator.pop(); // Close the app if the user doesn't retry
+        }
+      }
+
+      setState(() {
+        _isAuthenticating = false;
+      });
+      return;
+    }
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {});
+  }
 
   @override
   void initState() {
@@ -36,6 +167,24 @@ class _HomePageScreenState extends State<HomePageScreen> {
     userdetailscontroller.dataSendToServer();
     admindetailsController.dataSendToServer();
     getWhatsapp();
+    askDeviceAuthFunction();
+  }
+
+  askDeviceAuthFunction() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(
+        '----------------0${prefs.getBool('isAuthorized')}0-----------------');
+    if (prefs.getInt('first_time_login') == null) {
+      prefs.setInt('first_time_login', 1);
+    } else if (prefs.getInt('first_time_login') == 1) {
+      if (prefs.getBool('isAuthorized') == false) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!_isAuthenticating) {
+            _authenticateWithBiometrics();
+          }
+        });
+      }
+    }
   }
 
   Future<void> getWhatsapp() async {
