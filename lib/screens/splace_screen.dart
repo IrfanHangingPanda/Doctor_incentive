@@ -32,13 +32,15 @@ class _SplaceScreenState extends State<SplaceScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
 
-    if (prefs.getBool('isPasswordUpdate') != null) {
+    if (token != null) {
       DataManager.getInstance().setUserToken(token.toString());
 
       Timer(
           const Duration(seconds: 3),
-          () => Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const Bottombar())));
+          () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Bottombar())));
     } else {
       Timer(
           const Duration(seconds: 3),

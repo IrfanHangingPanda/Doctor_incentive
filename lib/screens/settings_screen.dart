@@ -15,6 +15,7 @@ import 'package:doctors_incentive/screens/login_screen.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
@@ -31,8 +32,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 void _launchURLApp() async {
-  launchUrl(Uri.parse(
-      'https://www.privacypolicygenerator.info/live.php?token=dzAD7lfLz4X0Ngpr7ZgwCeTjlm8yLjGf'));
+  launchUrl(
+      Uri.parse('https://drincentive.alseef-hospital.com/privacy-policy.html'));
 }
 
 void _launchURLAppterms() async {
@@ -270,7 +271,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           Get.offAll(LoginScreen());
 
                           for (String key in preferences.getKeys()) {
-                            if (key != 'tokenNotification') {
+                            if (key != 'tokenNotification' &&
+                                key != 'doctor_id' &&
+                                key != 'doctor_password') {
                               preferences.remove(key);
                             }
                           }
